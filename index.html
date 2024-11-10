@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enregistrement des Visiteurs d'Églises</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container text-center mt-5 p-4 bg-light rounded shadow">
+        <h1 class="mb-4">Enregistrement des Visiteurs</h1>
+        <h2 class="text-primary">Total des Visiteurs : <span id="totalCount">0</span></h2>
+        
+        <!-- Menu déroulant pour sélectionner l'église -->
+        <div class="form-group mt-4">
+            <label for="churchSelect">Choisissez votre église :</label>
+            <select class="form-control" id="churchSelect">
+                <option value="Berlin">Berlin</option>
+                <option value="Stuttgart">Stuttgart</option>
+                <option value="Hamburg">Hamburg</option>
+                <option value="Freiburg">Freiburg</option>
+                <option value="Kehl">Kehl</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Frankfurt">Frankfurt</option>
+            </select>
+        </div>
+
+        <!-- Champ de saisie pour entrer le nombre de visiteurs -->
+        <div class="form-group">
+            <label for="visitorCount">Nombre de visiteurs à enregistrer :</label>
+            <input type="number" id="visitorCount" class="form-control" placeholder="Entrez le nombre de visiteurs" />
+        </div>
+
+        <!-- Bouton pour enregistrer -->
+        <button class="btn btn-success mt-3" onclick="registerVisitors()">Enregistrer les visiteurs</button>
+
+        <!-- Affichage des compteurs pour chaque église avec bouton "Annuler" -->
+        <div class="church-buttons mt-4">
+            <div class="church-row mt-2" id="BerlinRow">
+                <span id="Berlin">Berlin : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Berlin')">Annuler</button>
+            </div>
+            <div class="church-row mt-2" id="StuttgartRow">
+                <span id="Stuttgart">Stuttgart : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Stuttgart')">Annuler</button>
+            </div>
+            <div class="church-row mt-2" id="HamburgRow">
+                <span id="Hamburg">Hamburg : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Hamburg')">Annuler</button>
+            </div>
+            <div class="church-row mt-2" id="FreiburgRow">
+                <span id="Freiburg">Freiburg : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Freiburg')">Annuler</button>
+            </div>
+            <div class="church-row mt-2" id="KehlRow">
+                <span id="Kehl">Kehl : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Kehl')">Annuler</button>
+            </div>
+            <div class="church-row mt-2" id="LuxembourgRow">
+                <span id="Luxembourg">Luxembourg : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Luxembourg')">Annuler</button>
+            </div>
+            <div class="church-row mt-2" id="FrankfurtRow">
+                <span id="Frankfurt">Frankfurt : 0</span>
+                <button class="btn btn-outline-secondary btn-sm" onclick="decrementCount('Frankfurt')">Annuler</button>
+            </div>
+        </div>
+
+        <button class="btn btn-danger mt-4" onclick="resetCounts()">Réinitialiser</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
