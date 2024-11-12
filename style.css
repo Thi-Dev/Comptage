@@ -1,13 +1,337 @@
-
+/* General styling */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+    font-size: 1em;
+    background: linear-gradient(135deg, #894fa0, #1D2C5A); /* Blue gradient background */
+    color: #2D0C57;
+    margin: 0;
+    padding: auto;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Full viewport height */
+    background-size: cover;
 }
 
 .container {
     max-width: 500px;
+    width: 100%; /* Ensure it's responsive */
+    margin: 0 auto;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.2); /* Glassmorphism effect */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px); /* Apply the blur for the glassmorphism effect */
+    text-align: center;
+    position: relative;
+    animation: fadeInUp 0.6s ease-out forwards; /* Fade-in animation */
+    overflow: hidden; /* Hide excess shadow */
 }
 
-h1, h2 {
-    color: #333;
+/* Fade-in animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Moving up from bottom */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Element in its original position */
+    }
 }
+
+/* Moving light around the border */
+@keyframes rotateBorderClockwise {
+    0% {
+        border: 3px solid rgba(255, 255, 255, 0.5); /* Light at the top */
+        box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6); /* Light shadow */
+    }
+    25% {
+        border: 3px solid rgba(255, 255, 255, 0.8); /* Light moving to top-right */
+        box-shadow: 10px -10px 20px 5px rgba(255, 255, 255, 0.6); /* Light shadow */
+    }
+    50% {
+        border: 3px solid rgba(255, 255, 255, 1); /* Light at the bottom-right */
+        box-shadow: 10px 10px 20px 5px rgba(255, 255, 255, 0.6); /* Light shadow */
+    }
+    75% {
+        border: 3px solid rgba(255, 255, 255, 0.8); /* Light moving to bottom-left */
+        box-shadow: -10px 10px 20px 5px rgba(255, 255, 255, 0.6); /* Light shadow */
+    }
+    100% {
+        border: 3px solid rgba(255, 255, 255, 0.5); /* Light at the top-left */
+        box-shadow: -10px -10px 20px 5px rgba(255, 255, 255, 0.6); /* Light shadow */
+    }
+}
+
+/* Apply the rotation animation to the container */
+.container {
+    animation: rotateBorderClockwise 4s linear infinite; /* Rotate border clockwise */
+}
+
+/* Header and Total Styling */
+h1, h2 {
+    color: #ffffff;
+    font-size: 30px; /* Larger text for better visibility */
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#totalCountSection {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: rgba(11, 206, 131, 0.2); /* Soft greenish background for the total count */
+    border: 2px solid #0BCE83;
+    border-radius: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 176, 80, 0.4);
+    animation: fadeIn 0.5s ease-out;
+}
+
+
+#totalCountLabel {
+    font-size: 22px; /* Increased font size */
+    color: #ffffff;
+    margin: 0;
+}
+
+#totalCount {
+    font-size: 40px; /* Larger total count font size */
+    color: #0BCE83;
+    font-weight: bold;
+}
+
+/* Form and Input Styling */
+.form-section {
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards; /* Fade-in animation for form section */
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    font-size: 18px; /* Larger label font size */
+    color: #ffffff;
+}
+
+select, input[type="number"] {
+    width: 90%;
+    padding: 12px; /* Increased padding for easier interaction */
+    margin-top: 10px;
+    font-size: 18px; /* Larger input text */
+    border: 1px solid #D9D0E3;
+    border-radius: 8px;
+    background-color: #e6d0d0;
+    transition: all 0.3s ease; /* Transition for smooth focus effect */
+}
+
+select:focus, input[type="number"]:focus {
+    border-color: #0BCE83; /* Focused border color */
+    box-shadow: 0 0 10px rgba(11, 206, 131, 0.5); /* Focused shadow */
+}
+
+/* Button Group Styling */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    font-size: 16px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for background color and transform */
+}
+
+#submitBtn {
+    background-color: #0BCE83;
+}
+
+#resetBtn {
+    background-color: #E94B3C;
+}
+
+button:hover {
+    background-color: #1D2C5A; /* Hover background color */
+    transform: scale(1.1); /* Scale up on hover */
+}
+
+button:active {
+    transform: scale(0.98); /* Scale down on click */
+}
+
+/* Entity List Styling */
+#entityList {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+#entityList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-size: 18px; /* Larger text for better readability */
+    color: #2D0C57;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect for list items */
+    backdrop-filter: blur(5px); /* Adds blur effect */
+    opacity: 0; /* Start with opacity 0 */
+    animation: slideIn 0.5s ease-out forwards; /* Slide-in animation */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-50px); /* Start from left */
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Color Coding */
+.entity-item.VOMM {
+    background-color: #CBF265;
+}
+
+.entity-item.FJKM {
+    background-color: #E2CBFF;
+}
+
+/* Inline Count Controls */
+.count-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Increased gap for better layout */
+}
+
+.count-controls button {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    padding: 0;
+    background-color: #9586A8;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+}
+
+.count-controls input[type="number"] {
+    width: 50px;
+    text-align: center;
+    font-size: 18px;
+    padding: 6px;
+    border: 1px solid #D9D0E3;
+    border-radius: 8px;
+    margin: 0 8px;
+}
+
+/* Adjustments for the total count to ensure it doesn't overflow */
+#totalCount {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Responsivity for small screens (smartphones) */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+        width: 95%;
+    }
+
+    h1, h2 {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    #entityList li {
+        font-size: 14px;
+    }
+
+    .count-controls button {
+        width: 22px;
+        height: 22px;
+    }
+
+    .count-controls input[type="number"] {
+        width: 50px;
+    }
+}
+
+/* Responsivity for tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        width: 90%;
+    }
+
+    h1, h2 {
+        font-size: 24px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    #entityList li {
+        font-size: 16px;
+    }
+}
+
+/* Responsivity for laptops */
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px;
+        width: 80%;
+    }
+
+    h1, h2 {
+        font-size: 28px;
+    }
+
+    #totalCountSection {
+        font-size: 20px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px 18px;
+    }
+
+    #entityList li {
+        font-size: 18px;
+    }
+}
+

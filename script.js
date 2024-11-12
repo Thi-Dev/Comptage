@@ -1,79 +1,90 @@
-let totalVisitors = 0;
-const churchCounts = {
-    "Berlin": 0,
-    "Stuttgart": 0,
-    "Hamburg": 0,
-    "Freiburg": 0,
-    "Kehl": 0,
-    "Luxembourg": 0,
-    "Frankfurt": 0
+const entities = {
+    VOMM: ["NRW", "BERLIN", "HANNOVER", "ROME", "MONTPELLIER", "LUXEMBOURG", "CHARTES", "KEHL", "MONCTON", "MÜNCHEN"],
+    FJKM: ["Bethlehem Mifankatia", "Filadelfia Meaux", "Gland Fahasoavana", "Kanana Fiadanana", "Montrouge Fiorenana Paris", "Peniela Fitiavana", "Betela Fahamarinana", "Straßbourg Famonjena", "Stuttgart Fahazavana", "Wagner Finoana Paris", "Ziona Vaovao Paris"]
 };
 
-// Fonction pour enregistrer les visiteurs
-function registerVisitors() {
-    const selectedChurch = document.getElementById("churchSelect").value;
-    const visitorCount = parseInt(document.getElementById("visitorCount").value);
+let entityCounts = {};
+let totalCount = 0;
 
-    // Vérifier que le nombre de visiteurs est valide (non null et positif)
-    if (isNaN(visitorCount) || visitorCount <= 0) {
-        alert("Veuillez entrer un nombre valide de visiteurs.");
-        return;
+Object.keys(entities).forEach(group => entities[group].sort());
+
+document.getElementById('groupSelect').addEventListener('change', function() {
+    const selectedGroup = this.value;
+    const entitySelect = document.getElementById('entitySelect');
+    entitySelect.innerHTML = '<option value="" disabled selected>-- Sélectionner une entité --</option>';
+    entities[selectedGroup].forEach(entity => {
+        const option = document.createElement('option');
+        option.value = entity;
+        option.textContent = entity;
+        entitySelect.appendChild(option);
+    });
+    entitySelect.disabled = false;
+});
+
+document.getElementById('submitBtn').addEventListener('click', function() {
+    const group = document.getElementById('groupSelect').value;
+    const entity = document.getElementById('entitySelect').value;
+    const count = parseInt(document.getElementById('guestCountInput').value) || 0;
+
+    if (group && entity && count > 0) {
+        if (!entityCounts[entity]) entityCounts[entity] = { count: 0, group: group };
+        entityCounts[entity].count += count;
+        totalCount += count;
+        updateEntityList();
+        resetEntryFields();
     }
+});
 
-    // Ajouter les visiteurs au compteur de l'église sélectionnée
-    churchCounts[selectedChurch] += visitorCount;
-    totalVisitors += visitorCount;
-    
-    // Mettre à jour l'affichage
-    updateDisplay();
-
-    // Réinitialiser le champ de saisie de visiteurs pour un nouvel enregistrement
-    document.getElementById("visitorCount").value = "";  // Réinitialise le champ
-
-    // Sauvegarder les données dans localStorage
-    saveToLocalStorage();
+function updateEntityList() {
+    const entityList = document.getElementById('entityList');
+    entityList.innerHTML = '';
+    Object.keys(entityCounts).forEach(entity => {
+        const listItem = document.createElement('li');
+        listItem.className = `entity-item ${entityCounts[entity].group}`;
+        listItem.innerHTML = `
+            <span><strong>${entityCounts[entity].group}</strong> - ${entity}</span>
+            <div class="count-controls">
+                <button onclick="decrementCount('${entity}')">-</button>
+                <input type="number" value="${entityCounts[entity].count}" onchange="updateCount('${entity}', this.value)">
+                <button onclick="incrementCount('${entity}')">+</button>
+            </div>
+        `;
+        entityList.appendChild(listItem);
+    });
+    document.getElementById('totalCount').textContent = totalCount;
+    document.getElementById('entityListSection').classList.remove('hidden');
 }
 
-// Fonction pour annuler un enregistrement de visiteurs dans une église
-function decrementCount(church) {
-    const visitorCount = 1;  // Annule un visiteur à la fois
-    if (churchCounts[church] >= visitorCount) {
-        churchCounts[church] -= visitorCount;
-        totalVisitors -= visitorCount;
-        updateDisplay();
-        saveToLocalStorage();
+function incrementCount(entity) {
+    entityCounts[entity].count += 1;
+    totalCount += 1;
+    updateEntityList();
+}
+
+function decrementCount(entity) {
+    if (entityCounts[entity].count > 0) {
+        entityCounts[entity].count -= 1;
+        totalCount -= 1;
+        updateEntityList();
     }
 }
 
-// Fonction pour réinitialiser tous les compteurs
-function resetCounts() {
-    totalVisitors = 0;
-    for (let church in churchCounts) {
-        churchCounts[church] = 0;
-    }
-    updateDisplay();
-    saveToLocalStorage();
+function updateCount(entity, value) {
+    const newValue = parseInt(value) || 0;
+    totalCount += newValue - entityCounts[entity].count;
+    entityCounts[entity].count = newValue;
+    updateEntityList();
 }
 
-// Mettre à jour l'affichage des compteurs
-function updateDisplay() {
-    document.getElementById("totalCount").innerText = totalVisitors;
-    for (let church in churchCounts) {
-        document.getElementById(church).innerText = `${church} : ${churchCounts[church]}`;
-    }
+function resetEntryFields() {
+    document.getElementById('groupSelect').selectedIndex = 0;
+    document.getElementById('entitySelect').innerHTML = '<option value="" disabled selected>-- Sélectionner une entité --</option>';
+    document.getElementById('entitySelect').disabled = true;
+    document.getElementById('guestCountInput').value = 1;
 }
 
-// Sauvegarder les données dans le localStorage
-function saveToLocalStorage() {
-    localStorage.setItem("churchCounts", JSON.stringify(churchCounts));
-    localStorage.setItem("totalVisitors", totalVisitors.toString());
-}
-
-// Charger les données depuis le localStorage au chargement de la page
-window.onload = function() {
-    if (localStorage.getItem("churchCounts")) {
-        churchCounts = JSON.parse(localStorage.getItem("churchCounts"));
-        totalVisitors = parseInt(localStorage.getItem("totalVisitors"));
-        updateDisplay();
-    }
-};
+document.getElementById('resetBtn').addEventListener('click', function() {
+    entityCounts = {};
+    totalCount = 0;
+    updateEntityList();
+});
